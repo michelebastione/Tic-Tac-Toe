@@ -2,7 +2,8 @@ import asyncio, websockets, os, pickle
 from random import random, randint
 
 
-port = int(os.getenv("PORT"))
+host = "localhost"
+port = 8765
 lobbies = {}
 
 class Tris():
@@ -93,7 +94,7 @@ async def response(websocket, path):
         del lobbies[join_code]
 
 
-start_server = websockets.serve(response, '0.0.0.0', port)
+start_server = websockets.serve(response, host, port)
 print("Server started, listening on port ", port)
 asyncio.get_event_loop().run_until_complete(start_server)
 asyncio.get_event_loop().run_forever()
