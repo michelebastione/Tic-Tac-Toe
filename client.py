@@ -2,6 +2,9 @@ import asyncio, websockets, sys, pickle
 from concurrent.futures import ThreadPoolExecutor
 from time import time
 
+host = "localhost"
+port = 8765
+
 class Tris():
     def __init__(self, config):
         self.config = config
@@ -33,7 +36,7 @@ async def ainput(prompt: str = ""):
 
 
 async def main_handler(game_type):
-    async with websockets.connect("ws://ilmiotris.herokuapp.com") as socket:
+    async with websockets.connect(f"ws://{host}:{port}") as socket:
 
         if game_type == "NEW":
             await socket.send('new')
@@ -87,7 +90,7 @@ async def main_handler(game_type):
         else:
             print(['Hai perso!', 'Hai vinto!'][pin == outcome], end ='\n\n')
 
-def main():
+def run():
     while True:
         command = ""
         print("Usa NEW per iniziare una nuova partita o JOIN per unirti ad una partita\n")
@@ -103,4 +106,6 @@ def main():
         except:
             print("\nErrore di rete!\n")
             raise
-main()
+
+if __name__ == "__main__":
+    run()
